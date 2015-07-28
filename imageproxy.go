@@ -85,6 +85,11 @@ func (p *Proxy) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path == "/favicon.ico" {
 		return // ignore favicon requests
 	}
+	
+	// Add 200 response on AWS health check
+	if r.URL.Path == "/health-check" {
+		return // 200
+	}
 
 	req, err := NewRequest(r, p.DefaultBaseURL)
 	if err != nil {
